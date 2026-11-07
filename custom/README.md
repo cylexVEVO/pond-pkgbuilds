@@ -32,7 +32,8 @@ with real pacman against a deliberately newer upstream test package.
 
 Use a disposable **privileged Arch Linux** container or VM. The caller needs root
 for `arch-chroot` and Archiso. Compilation runs as `builder`. Allow at least 16 GiB
-RAM and 50 GiB free disk. The build requires internet access.
+RAM and 50 GiB free disk. The build requires internet access. Start containers with
+`--init` so exited GPG helpers are reaped during long builds.
 
 ```sh
 custom/scripts/configure-builder.sh

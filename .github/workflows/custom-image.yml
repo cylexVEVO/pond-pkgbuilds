@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
+      options: --init
     defaults:
       run:
         shell: bash
@@ -42,6 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
+      options: --init
     permissions:
       contents: write
     defaults:
@@ -78,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
-      options: --privileged
+      options: --init --privileged
     permissions:
       contents: write
     defaults:
@@ -111,7 +113,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
-      options: --privileged
+      options: --init --privileged
     defaults:
       run:
         shell: bash
