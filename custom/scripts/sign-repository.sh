@@ -4,7 +4,10 @@ cd "$(dirname "$0")/../.."
 : "${GNUPGHOME:?Use a dedicated signing keyring, outside the source/build workspace}"
 input=$(realpath "${1:-out/packages}")
 output=$(realpath -m "${2:-out/repository}")
+[[ $output != / && $output != "$input" && $output != "$input/"* ]]
 install -d "$output"
+# Regenerate the database from this build only; historical packages stay on the server.
+find "$output" -maxdepth 1 \( -name '*.pkg.tar.zst*' -o -name 'pond-custom.*' -o -name 'SHA256SUMS*' \) -delete
 fingerprint=$(<custom/signing-fingerprint)
 [[ $(gpg --batch --show-keys --with-colons custom/repository.asc | awk -F: '$1=="fpr"{print $10;exit}') == "$fingerprint" ]]
 mapfile -t packages < <(find "$input" -type f -name '*.pkg.tar.zst' | sort)

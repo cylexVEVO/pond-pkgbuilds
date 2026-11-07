@@ -76,8 +76,8 @@ The `Build custom Pond image` Actions workflow automates these steps after it is
 the default branch. It requires the dedicated armored private key in the
 `POND_SIGNING_KEY` repository secret. Enter an ISO version and installer ref (prefer
 a full commit SHA). Its outputs include a rootfs release, manifest and ISO artifact.
-Signing runs in a separate job from compilation. Upstream bot syncs are disabled in
-this fork to prevent unrelated recipes from changing automatically.
+Signing runs in a separate job from compilation. Upstream bot syncs and the upstream automatic package dispatcher are disabled in
+this fork; use the custom workflow for a complete release.
 
 The build procedure is repeatable; it does not promise bit-for-bit reproducibility:
 Arch/Pond repositories roll forward, and some upstream CMake dependencies are fetched

@@ -10,3 +10,5 @@
 /helium-browser-bin/helium-*/
 /pond-launcher/vicinae/
 /package-manager/*/package-manager/
+
+__pycache__/

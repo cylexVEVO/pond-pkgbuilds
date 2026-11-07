@@ -15,6 +15,7 @@ concurrency:
 
 jobs:
   dispatch:
+    if: github.repository == 'bflycomputer/pond-pkgbuilds'
     runs-on: ubuntu-latest
 
     env:
