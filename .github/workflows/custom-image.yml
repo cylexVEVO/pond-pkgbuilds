@@ -35,6 +35,7 @@ jobs:
         with:
           name: custom-packages
           path: out/packages/
+          overwrite: true
           retention-days: 7
   repository:
     needs: packages
@@ -72,6 +73,8 @@ jobs:
         run: rm -rf /tmp/pond-signing
   rootfs:
     needs: repository
+    outputs:
+      release_tag: ${{ steps.release.outputs.tag }}
     runs-on: ubuntu-latest
     container:
       image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
@@ -87,7 +90,12 @@ jobs:
           persist-credentials: false
       - run: pacman -Syu --needed --noconfirm arch-install-scripts jq python github-cli
       - run: custom/scripts/build-rootfs.sh
-      - run: custom/scripts/publish-rootfs.sh out/rootfs "rootfs-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+      - name: Publish immutable rootfs release
+        id: release
+        run: |
+          tag="rootfs-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          custom/scripts/publish-rootfs.sh out/rootfs "$tag"
+          printf 'tag=%s\n' "$tag" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -95,8 +103,11 @@ jobs:
         with:
           name: rootfs-manifest
           path: out/rootfs/rootfs.json
+          overwrite: true
   iso:
     needs: rootfs
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     container:
       image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
@@ -110,7 +121,7 @@ jobs:
           repository: cylexVEVO/iso-installer
           ref: ${{ inputs.installer_ref }}
           persist-credentials: false
-      - run: pacman -Syu --needed --noconfirm archiso grub git make python
+      - run: pacman -Syu --needed --noconfirm archiso grub git make python github-cli
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: rootfs-manifest
@@ -124,4 +135,11 @@ jobs:
         with:
           name: custom-pond-iso
           path: out/
+          overwrite: true
           retention-days: 14
+      - name: Publish ISO beside its rootfs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ needs.rootfs.outputs.release_tag }}
+        run: gh release upload "$RELEASE_TAG" --repo "$RELEASE_REPO" out/*.iso out/*.sha256

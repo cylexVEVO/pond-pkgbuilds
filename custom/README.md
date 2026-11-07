@@ -75,7 +75,8 @@ monotonic within epoch 1. Do not update source commits without recalculating che
 The `Build custom Pond image` Actions workflow automates these steps after it is on
 the default branch. It requires the dedicated armored private key in the
 `POND_SIGNING_KEY` repository secret. Enter an ISO version and installer ref (prefer
-a full commit SHA). Its outputs include a rootfs release, manifest and ISO artifact.
+a full commit SHA). Its outputs include a rootfs release, manifest and ISO artifact; the ISO and checksum
+are also published beside the rootfs in that release.
 Signing runs in a separate job from compilation. Upstream bot syncs and the upstream automatic package dispatcher are disabled in
 this fork; use the custom workflow for a complete release.
 
