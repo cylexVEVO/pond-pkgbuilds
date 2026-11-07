@@ -1,6 +1,6 @@
 # Maintainer: Ammar Hossain <ammar@butterfly.so>
 pkgname=pond-grub-config
-pkgver=0.1.1.r20261107.gc105c3f
+pkgver=0.1.1.r20261107.2.g153163d
 epoch=1
 pkgrel=1
 pkgdesc='Pond GRUB configuration, theme and menu integration'
@@ -8,11 +8,11 @@ arch=('any')
 url='https://github.com/cylexVEVO/pond-interface'
 license=('BSD-3-Clause' 'OFL-1.1')
 depends=('grub' 'os-prober')
-_commit=c105c3fde608dc662b6543d83c5b6c672e6e59da
+_commit=153163d166f2ac3f63974aa54dc045af8ece6db5
 source=("pond-interface-$_commit.tar.gz::https://codeload.github.com/cylexVEVO/pond-interface/tar.gz/$_commit"
         'pond-grub.hook'
         'pond-grub-update')
-sha256sums=('6368ad84e419cd0f305b9125eefcb8e329edade6b0452f650e034d7218015635'
+sha256sums=('6f8281f3d35663dfba8e396ff60f744bca04fda5f92eb5041bc44948ac80d0a5'
             '4bc2609cd458a46d99f2c17f41dbcc9261d5d948de1363d0196e64a3fc20a377'
             '96a677eeac179484c1c0c6611d4c2ef1dd728078893bc84c792b8653f69883fe')
 

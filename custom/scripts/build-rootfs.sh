@@ -84,5 +84,5 @@ rm -rf "$root/etc/pacman.d/gnupg" "$root/var/cache/pacman/pkg/"* "$root/var/log/
 restore_dns
 umount "$root"
 trap - EXIT
-bsdtar --numeric-owner --acls --xattrs -cpf - -C "$root" . | zstd -T0 -15 -o "$output/pond-rootfs.tar.zst"
+bsdtar --numeric-owner --acls --xattrs -cpf - -C "$root" . | zstd -T0 -10 -o "$output/pond-rootfs.tar.zst"
 (cd "$output" && sha256sum pond-rootfs.tar.zst > pond-rootfs.tar.zst.sha256)
