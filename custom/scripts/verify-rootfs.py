@@ -27,4 +27,8 @@ assert (root / 'usr/bin/helium-browser').is_symlink()
 assert 'DatabaseRequired' in (root / 'etc/pacman.conf').read_text()
 assert (root / 'etc/systemd/system/display-manager.service').readlink().name == 'sddm.service'
 assert (root / 'etc/systemd/user/graphical-session.target.wants/vicinae.service').is_symlink()
+inventory = dict(line.split(maxsplit=1) for line in (root / 'usr/share/pond-custom/packages.txt').read_text().splitlines())
+for name in ('pond-shell', 'pond-lockscreen', 'pond-wallpaper', 'pond-screenshot',
+             'pond-grub-config', 'pond-plymouth-theme', 'pond-launcher', 'pond-pm', 'pond-pm-extension'):
+    assert inventory[name].startswith('1:'), f'{name} was replaced during upgrade'
 print('Rootfs defaults, extension, browser, signing key, session and boot files verified')
