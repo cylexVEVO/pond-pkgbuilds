@@ -78,6 +78,11 @@ the default branch. It requires the dedicated armored private key in the
 `POND_SIGNING_KEY` repository secret. Enter an ISO version and installer ref (prefer
 a full commit SHA). Its outputs include a rootfs release, manifest and ISO artifact; the ISO and checksum
 are also published beside the rootfs in that release.
+The rootfs job discards its verified base download after extraction and removes
+the extracted tree before splitting release assets to reduce peak disk use on
+[standard GitHub runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners).
+Local builds retain the download and work tree by default; allow at least 25 GiB
+of free space for a rootfs build and its release parts.
 Signing runs in a separate job from compilation. Upstream bot syncs and the upstream automatic package dispatcher are disabled in
 this fork; use the custom workflow for a complete release.
 

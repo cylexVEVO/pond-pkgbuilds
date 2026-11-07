@@ -92,6 +92,10 @@ jobs:
           persist-credentials: false
       - run: pacman -Syu --needed --noconfirm arch-install-scripts jq python github-cli
       - run: custom/scripts/build-rootfs.sh
+        env:
+          KEEP_UPSTREAM_DOWNLOAD: '0'
+      - name: Reclaim extracted tree before splitting release assets
+        run: rm -rf custom/work
       - name: Publish immutable rootfs release
         id: release
         run: |

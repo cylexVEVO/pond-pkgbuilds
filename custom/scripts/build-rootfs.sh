@@ -17,6 +17,10 @@ fi
 printf '%s  %s\n' "$checksum" "$archive" | sha256sum -c -
 install -d "$root"
 bsdtar --numeric-owner --acls --xattrs -xpf "$archive" -C "$root"
+# CI needs only the extracted tree; never delete a caller-provided cached archive.
+if [[ ${KEEP_UPSTREAM_DOWNLOAD:-1} == 0 && -z ${UPSTREAM_ROOTFS:-} ]]; then
+  rm -f -- "$archive"
+fi
 # Never ship any build-host DNS configuration.
 cp -a --no-dereference "$root/etc/resolv.conf" "$work/resolv.conf.original"
 rm -f "$root/etc/resolv.conf"
