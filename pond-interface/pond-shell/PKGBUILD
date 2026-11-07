@@ -1,7 +1,7 @@
 # Maintainer: Ammar Hossain <ammar@butterfly.so>
 
 pkgname=pond-shell
-pkgver=0.2.0.r20261107.2.g153163d
+pkgver=0.2.0.r20261107.3.g399b1db
 epoch=1
 pkgrel=1
 pkgdesc='Pond desktop shell for niri'
@@ -49,9 +49,9 @@ backup=(
   'etc/xdg/gtk-4.0/settings.ini'
 )
 
-_commit=153163d166f2ac3f63974aa54dc045af8ece6db5
+_commit=399b1db1b38ecd1bf5830da1733543a75c8c4b63
 source=("pond-interface-$_commit.tar.gz::https://codeload.github.com/cylexVEVO/pond-interface/tar.gz/$_commit")
-sha256sums=('6f8281f3d35663dfba8e396ff60f744bca04fda5f92eb5041bc44948ac80d0a5')
+sha256sums=('f8e118a25eaa6fb26d7b6e96cbd1302cdf925e0c1a0a1cff51d34ee7905a5daa')
 
 package() {
   cd "pond-interface-$_commit"
