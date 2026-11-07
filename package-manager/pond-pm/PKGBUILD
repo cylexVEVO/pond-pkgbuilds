@@ -1,39 +1,40 @@
 # Maintainer: Ammar Hossain <ammar@butterfly.so>
 
 pkgname=pond-pm
-pkgver=0.1.2
+pkgver=0.1.2.r20261107.gf2a5f2c
+epoch=1
 pkgrel=1
 pkgdesc='TUI for managing packages on Pond'
 arch=('x86_64' 'aarch64')
-url='https://github.com/bflycomputer/package-manager'
+url='https://github.com/cylexVEVO/package-manager'
 license=('BSD-3-Clause')
 depends=('flatpak' 'glib2' 'glibc' 'gcc-libs' 'pacman-contrib' 'paru' 'polkit' 'util-linux')
 makedepends=('cargo' 'git' 'pkgconf')
 # Rust's lld cannot link GCC LTO objects from the bundled C libraries.
 options=('!lto')
-_commit=805bebd15b5f617302be823a75e3d64762dbb7f2
-source=("package-manager::git+$url.git#commit=$_commit")
-sha256sums=('SKIP')
+_commit=f2a5f2caf7c10ee6eda1869ef5de69e59e21b0e4
+source=("package-manager-$_commit.tar.gz::https://codeload.github.com/cylexVEVO/package-manager/tar.gz/$_commit")
+sha256sums=('6dac3f6716b22c9158d9c22e10dda6207a5f1b32be4288d0fe4f2cd81d8f6fce')
 
 prepare() {
-  cd package-manager
+  cd "package-manager-$_commit"
   cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
 }
 
 build() {
-  cd package-manager
+  cd "package-manager-$_commit"
   export CARGO_TARGET_DIR="$srcdir/target"
   cargo build --release --frozen -p pm
 }
 
 check() {
-  cd package-manager
+  cd "package-manager-$_commit"
   export CARGO_TARGET_DIR="$srcdir/target"
   cargo test --release --frozen -p pm -p libpm
 }
 
 package() {
-  cd package-manager
+  cd "package-manager-$_commit"
   install -Dm755 "$srcdir/target/release/pm" "$pkgdir/usr/bin/pm"
   install -Dm644 so.butterfly.pond.install.policy -t "$pkgdir/usr/share/polkit-1/actions"
   install -Dm644 icons/*.webp -t "$pkgdir/usr/share/pond-pm/icons"

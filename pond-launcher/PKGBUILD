@@ -1,11 +1,12 @@
 # Maintainer: Ammar Hossain <ammar@butterfly.so>
 
 pkgname=pond-launcher
-pkgver=0.2.0
+pkgver=0.2.0.r20261107.g89a3b80
+epoch=1
 pkgrel=1
 pkgdesc='Default launcher for Pond derived from Vicinae'
 arch=('x86_64' 'aarch64')
-url='https://github.com/bflycomputer/vicinae'
+url='https://github.com/cylexVEVO/vicinae'
 license=('GPL-3.0-only')
 depends=('qt6-base' 'qt6-declarative' 'qt6-svg' 'qt6-wayland' 'layer-shell-qt'
          'qtkeychain-qt6' 'syntax-highlighting' 'libqalculate' 'cmark-gfm'
@@ -17,16 +18,17 @@ checkdepends=('catch2' 'glibc-locales')
 provides=('vicinae')
 conflicts=('vicinae' 'vicinae-bin' 'vicinae-git')
 install=pond-launcher.install
-_commit=68847f4b70ecf2a723859d39032e857dccb7691c
-source=("vicinae::git+$url.git#commit=$_commit")
-sha256sums=('SKIP')
+_commit=89a3b808e3667431eb932740d5e8c0dba21b9582
+source=("vicinae-$_commit.tar.gz::https://codeload.github.com/cylexVEVO/vicinae/tar.gz/$_commit")
+sha256sums=('caf7f19693050aa1b8abf5d9ea5ded9158f0ae36c5dbc5b4eac43503a89362b2')
 
 build() {
-  cmake -S vicinae -B build -G Ninja \
+  cmake -S "vicinae-$_commit" -B build -G Ninja \
     -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr \
     -DBUILD_TESTS=ON -DVICINAE_DEV_MODE=OFF \
     -DUSE_SYSTEM_CMARK_GFM=ON -DVICINAE_NODE_RUNTIME_DOWNLOAD=OFF \
-    -DVICINAE_PROVENANCE=pond \
+    -DVICINAE_PROVENANCE=cylexVEVO -DVICINAE_GIT_TAG=v0.2.0 \
+    -DVICINAE_GIT_COMMIT_HASH="$_commit" \
     -DAUTO_INSTALL_BROWSER_MANIFESTS=OFF -DENABLE_ONBOARDING=OFF
   cmake --build build
 }

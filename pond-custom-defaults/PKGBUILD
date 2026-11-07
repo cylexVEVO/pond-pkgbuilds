@@ -1,0 +1,16 @@
+pkgname=pond-custom-defaults
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='cylexVEVO Pond defaults for new users'
+arch=('any')
+url='https://github.com/cylexVEVO/pond-pkgbuilds'
+license=('BSD-3-Clause')
+depends=('pond-shell' 'pond-launcher' 'pond-pm-extension' 'helium-browser-bin')
+source=()
+sha256sums=()
+
+package() {
+  install -d "$pkgdir/etc/skel" "$pkgdir/etc/sddm.conf.d"
+  cp -a "$startdir/files/skel/." "$pkgdir/etc/skel/"
+  install -m644 "$startdir/files/sddm.conf" "$pkgdir/etc/sddm.conf.d/90-pond-custom.conf"
+}

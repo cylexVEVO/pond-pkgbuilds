@@ -1,42 +1,43 @@
 # Maintainer: Ammar Hossain <ammar@butterfly.so>
 
 pkgname=pond-pm-extension
-pkgver=0.1.1
+pkgver=0.1.1.r20261107.gf2a5f2c
+epoch=1
 pkgrel=1
 pkgdesc='Launcher extension for installing packages on Pond'
 arch=('x86_64' 'aarch64')
-url='https://github.com/bflycomputer/package-manager'
+url='https://github.com/cylexVEVO/package-manager'
 license=('BSD-3-Clause')
 depends=('pond-pm' 'pond-launcher' 'flatpak' 'glib2' 'glibc' 'gcc-libs' 'paru' 'polkit')
 makedepends=('cargo' 'git' 'pkgconf' 'nodejs' 'npm')
 # Rust's lld cannot link GCC LTO objects from the bundled C libraries.
 options=('!lto')
-_commit=805bebd15b5f617302be823a75e3d64762dbb7f2
-source=("package-manager::git+$url.git#commit=$_commit")
-sha256sums=('SKIP')
+_commit=f2a5f2caf7c10ee6eda1869ef5de69e59e21b0e4
+source=("package-manager-$_commit.tar.gz::https://codeload.github.com/cylexVEVO/package-manager/tar.gz/$_commit")
+sha256sums=('6dac3f6716b22c9158d9c22e10dda6207a5f1b32be4288d0fe4f2cd81d8f6fce')
 
 prepare() {
-  cd package-manager
+  cd "package-manager-$_commit"
   cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
   cd launcher-extension
   npm ci --cache "$srcdir/npm-cache" --no-audit --no-fund
 }
 
 build() {
-  cd package-manager/launcher-extension
+  cd "package-manager-$_commit/launcher-extension"
   export CARGO_TARGET_DIR="$srcdir/target"
   export CARGO_NET_OFFLINE=true
   npm run build
 }
 
 check() {
-  cd package-manager
+  cd "package-manager-$_commit"
   export CARGO_TARGET_DIR="$srcdir/target"
   cargo test --release --frozen -p pm-extension-bridge
 }
 
 package() {
-  cd package-manager
+  cd "package-manager-$_commit"
   install -d "$pkgdir/usr/lib/$pkgname" "$pkgdir/usr/share/vicinae/extensions"
   cp -r launcher-extension/dist/. "$pkgdir/usr/lib/$pkgname/"
   ln -s "/usr/lib/$pkgname" "$pkgdir/usr/share/vicinae/extensions/$pkgname"

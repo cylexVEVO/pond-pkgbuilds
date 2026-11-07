@@ -1,19 +1,20 @@
 # Maintainer: Ammar Hossain <ammar@butterfly.so>
 
 pkgname=pond-plymouth-theme
-pkgver=0.1.0
+pkgver=0.1.0.r20261107.gc105c3f
+epoch=1
 pkgrel=1
 pkgdesc='Pond Plymouth boot, shutdown, and restart animations'
 arch=('any')
-url='https://github.com/bflycomputer/pond-interface'
+url='https://github.com/cylexVEVO/pond-interface'
 license=('BSD-3-Clause')
 depends=('plymouth' 'mkinitcpio')
 install='pond-plymouth.install'
-_commit=0c97b8416b9ae2559125706adce4837c616119d2
-source=("pond-interface-$_commit.tar.gz::$url/archive/$_commit.tar.gz"
+_commit=c105c3fde608dc662b6543d83c5b6c672e6e59da
+source=("pond-interface-$_commit.tar.gz::https://codeload.github.com/cylexVEVO/pond-interface/tar.gz/$_commit"
         'pond-plymouth.hook'
         'pond-plymouth-update')
-sha256sums=('83800a45bca6b0ef2d6a2b180fb60bdae851363260db4dd885c81e5efd5cd299'
+sha256sums=('6368ad84e419cd0f305b9125eefcb8e329edade6b0452f650e034d7218015635'
             'eaf474787de29f9850d0558ae2f1a9c0cb38ae8e1e4906aa31b2eafc93a45b23'
             'bfd856f2ef8eb6a2c552612aad09a77a8e9426dbbb48257776c1e1a90d3fcbb5')
 

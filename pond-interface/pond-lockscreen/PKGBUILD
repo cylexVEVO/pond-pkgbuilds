@@ -1,11 +1,12 @@
 # Maintainer: Ammar Hossain <ammar@butterfly.so>
 
 pkgname=pond-lockscreen
-pkgver=0.2.1
+pkgver=0.2.1.r20261107.gc105c3f
+epoch=1
 pkgrel=1
 pkgdesc='Pond session lock and SDDM greeter'
 arch=('x86_64')
-url='https://github.com/bflycomputer/pond-interface'
+url='https://github.com/cylexVEVO/pond-interface'
 license=('BSD-3-Clause')
 depends=(
   'coreutils'
@@ -27,9 +28,9 @@ depends=(
 )
 makedepends=('cmake' 'ninja')
 
-_commit=5d6fc5c8df6b15a79fd3905f65402fdaeaee9cf0
-source=("pond-interface-$_commit.tar.gz::$url/archive/$_commit.tar.gz")
-sha256sums=('3c6df2a3293fabfbe450179083c098db66b87995170388540b6b23ddcd3f93a5')
+_commit=c105c3fde608dc662b6543d83c5b6c672e6e59da
+source=("pond-interface-$_commit.tar.gz::https://codeload.github.com/cylexVEVO/pond-interface/tar.gz/$_commit")
+sha256sums=('6368ad84e419cd0f305b9125eefcb8e329edade6b0452f650e034d7218015635')
 
 build() {
   cmake -S "pond-interface-$_commit" -B build -G Ninja \

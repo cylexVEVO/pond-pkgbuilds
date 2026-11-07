@@ -1,0 +1,17 @@
+{
+  "pond-interface": {
+    "repository": "cylexVEVO/pond-interface",
+    "commit": "c105c3fde608dc662b6543d83c5b6c672e6e59da",
+    "sha256": "6368ad84e419cd0f305b9125eefcb8e329edade6b0452f650e034d7218015635"
+  },
+  "vicinae": {
+    "repository": "cylexVEVO/vicinae",
+    "commit": "89a3b808e3667431eb932740d5e8c0dba21b9582",
+    "sha256": "caf7f19693050aa1b8abf5d9ea5ded9158f0ae36c5dbc5b4eac43503a89362b2"
+  },
+  "package-manager": {
+    "repository": "cylexVEVO/package-manager",
+    "commit": "f2a5f2caf7c10ee6eda1869ef5de69e59e21b0e4",
+    "sha256": "6dac3f6716b22c9158d9c22e10dda6207a5f1b32be4288d0fe4f2cd81d8f6fce"
+  }
+}

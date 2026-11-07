@@ -1,0 +1,127 @@
+name: Build custom Pond image
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: ISO version (X.Y.Z)
+        required: true
+        type: string
+      installer_ref:
+        description: cylexVEVO/iso-installer commit or branch
+        default: custom-pond
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: custom-pond-release
+  cancel-in-progress: false
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - run: custom/scripts/configure-builder.sh
+      - run: custom/tests/repository-priority.sh
+      - run: custom/scripts/build-packages.sh
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: custom-packages
+          path: out/packages/
+          retention-days: 7
+  repository:
+    needs: packages
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - run: pacman -Syu --needed --noconfirm github-cli
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: custom-packages
+          path: out/packages
+      - name: Import dedicated signing key
+        env:
+          SIGNING_KEY: ${{ secrets.POND_SIGNING_KEY }}
+        run: |
+          install -d -m700 /tmp/pond-signing
+          printf '%s' "$SIGNING_KEY" | gpg --homedir /tmp/pond-signing --batch --import
+      - run: custom/scripts/sign-repository.sh
+        env:
+          GNUPGHOME: /tmp/pond-signing
+      - run: custom/scripts/publish-repository.sh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+      - if: always()
+        run: rm -rf /tmp/pond-signing
+  rootfs:
+    needs: repository
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
+      options: --privileged
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - run: pacman -Syu --needed --noconfirm arch-install-scripts jq python github-cli
+      - run: custom/scripts/build-rootfs.sh
+      - run: custom/scripts/publish-rootfs.sh out/rootfs "rootfs-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: rootfs-manifest
+          path: out/rootfs/rootfs.json
+  iso:
+    needs: rootfs
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux@sha256:732829e182d0cb7ef3d799827e799ff3bdd2d27fee557770bbd611a211439cf6
+      options: --privileged
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          repository: cylexVEVO/iso-installer
+          ref: ${{ inputs.installer_ref }}
+          persist-credentials: false
+      - run: pacman -Syu --needed --noconfirm archiso grub git make python
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: rootfs-manifest
+          path: rootfs-manifest
+      - run: python scripts/use-rootfs.py rootfs-manifest/rootfs.json
+      - run: make check
+      - run: make iso VERSION="$ISO_VERSION"
+        env:
+          ISO_VERSION: ${{ inputs.version }}
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: custom-pond-iso
+          path: out/
+          retention-days: 14

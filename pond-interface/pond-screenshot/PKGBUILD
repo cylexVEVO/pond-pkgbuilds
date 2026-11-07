@@ -1,11 +1,12 @@
 # Maintainer: Ammar Hossain <ammar@butterfly.so>
 
 pkgname=pond-screenshot
-pkgver=0.1.0
+pkgver=0.1.0.r20261107.gc105c3f
+epoch=1
 pkgrel=1
 pkgdesc='Default screenshotting tool for Pond'
 arch=('x86_64')
-url='https://github.com/bflycomputer/pond-interface'
+url='https://github.com/cylexVEVO/pond-interface'
 license=('BSD-3-Clause')
 depends=(
   'niri>=26.04'
@@ -18,9 +19,9 @@ depends=(
   'wl-clipboard'
 )
 makedepends=('cmake' 'ninja')
-_commit=0c97b8416b9ae2559125706adce4837c616119d2
-source=("pond-interface-$_commit.tar.gz::$url/archive/$_commit.tar.gz")
-sha256sums=('83800a45bca6b0ef2d6a2b180fb60bdae851363260db4dd885c81e5efd5cd299')
+_commit=c105c3fde608dc662b6543d83c5b6c672e6e59da
+source=("pond-interface-$_commit.tar.gz::https://codeload.github.com/cylexVEVO/pond-interface/tar.gz/$_commit")
+sha256sums=('6368ad84e419cd0f305b9125eefcb8e329edade6b0452f650e034d7218015635')
 
 build() {
   cmake -S "$srcdir/pond-interface-$_commit/screenshot/native" -B "$srcdir/build" -G Ninja \

@@ -1,18 +1,19 @@
 # Maintainer: Ammar Hossain <ammar@butterfly.so>
 
 pkgname=pond-wallpaper
-pkgver=0.2.0
+pkgver=0.2.0.r20261107.gc105c3f
+epoch=1
 pkgrel=1
 pkgdesc='Wallpaper manager for Pond'
 arch=('any')
-url='https://github.com/bflycomputer/pond-interface'
+url='https://github.com/cylexVEVO/pond-interface'
 license=('BSD-3-Clause')
 depends=('python' 'python-pyqt6' 'qt6-declarative' 'qt6-imageformats' 'qt6-svg' 'qt6-wayland' 'quickshell' 'zenity')
 makedepends=('qt6-shadertools')
 
-_commit=3ce41ea5a99ce60c653c44d28f5a28704427cc79
-source=("pond-interface-$_commit.tar.gz::$url/archive/$_commit.tar.gz")
-sha256sums=('e1a899c43f0970776d981e6780c7d7773d74661697b2174d51b93f40727521b9')
+_commit=c105c3fde608dc662b6543d83c5b6c672e6e59da
+source=("pond-interface-$_commit.tar.gz::https://codeload.github.com/cylexVEVO/pond-interface/tar.gz/$_commit")
+sha256sums=('6368ad84e419cd0f305b9125eefcb8e329edade6b0452f650e034d7218015635')
 
 build() {
   cd "pond-interface-$_commit/wallpaper/daylight"

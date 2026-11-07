@@ -1,0 +1,27 @@
+{
+  "upstream_rootfs": {
+    "url": "https://releases.butterfly.so/rootfs/7460b81081fd8fffeb7a40f1b0ecbe7e39efaaf307242c1b654ea4a42efcdb65/pond-rootfs.tar.zst",
+    "sha256": "7460b81081fd8fffeb7a40f1b0ecbe7e39efaaf307242c1b654ea4a42efcdb65"
+  },
+  "repository": "pond-custom",
+  "server": "https://github.com/cylexVEVO/pond-pkgbuilds/releases/download/repository",
+  "packages": [
+    "pond-shell",
+    "pond-lockscreen",
+    "pond-wallpaper",
+    "pond-screenshot",
+    "pond-plymouth-theme",
+    "pond-grub-config",
+    "pond-launcher",
+    "pond-pm",
+    "pond-pm-extension",
+    "pond-custom-defaults",
+    "helium-browser-bin"
+  ],
+  "services": [
+    "NetworkManager.service",
+    "bluetooth.service",
+    "sddm.service"
+  ],
+  "session": "niri"
+}
