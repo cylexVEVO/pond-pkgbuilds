@@ -66,7 +66,7 @@ In the installer checkout:
 ```sh
 python3 scripts/use-rootfs.py /path/to/out/rootfs/rootfs.json
 make check
-make iso VERSION=1.0.0
+make iso VERSION=1.0.1
 ```
 
 Changing `VERSION` only changes the ISO label. Update recipes/source locks and rebuild
@@ -89,9 +89,11 @@ build logs when exact historical binaries matter.
 
 ## Fresh VM acceptance
 
-Boot the ISO with a new >=32 GiB disk, network, >=4 GiB RAM and UEFI (also test BIOS).
+Boot the ISO with a new >=40 GiB disk, network, >=4 GiB RAM and UEFI (also test BIOS).
+For QEMU, enable a 3D VirtIO GPU: Niri needs a working EGL renderer.
 Complete the installer and reboot from the disk. Log in and verify:
 
+- Leave the greeter idle before login and confirm it does not submit password attempts.
 - Niri starts Pond shell; North and the selected Ales Krivec wallpaper appear immediately.
 - `systemctl --user is-active vicinae` succeeds and Mod+Space opens the forked launcher.
 - The package-manager extension appears without import; its Rust bridge runs.
