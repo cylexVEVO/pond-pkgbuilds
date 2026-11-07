@@ -25,7 +25,13 @@ restore_dns() {
   rm -f "$root/etc/resolv.conf"
   cp -a --no-dereference "$work/resolv.conf.original" "$root/etc/resolv.conf"
 }
-trap restore_dns EXIT
+# pacman CheckSpace needs a mountpoint at the chroot root.
+mount --bind "$root" "$root"
+cleanup() {
+  restore_dns
+  umount "$root"
+}
+trap cleanup EXIT
 fingerprint=$(<custom/signing-fingerprint)
 keyring="$root/usr/share/pacman/keyrings"
 install -d "$keyring"
@@ -76,6 +82,7 @@ rm -f "$root/etc/machine-id" "$root/var/lib/dbus/machine-id" "$root/var/lib/syst
 arch-chroot "$root" gpgconf --homedir /etc/pacman.d/gnupg --kill all || true
 rm -rf "$root/etc/pacman.d/gnupg" "$root/var/cache/pacman/pkg/"* "$root/var/log/journal/"*
 restore_dns
+umount "$root"
 trap - EXIT
 bsdtar --numeric-owner --acls --xattrs -cpf - -C "$root" . | zstd -T2 -15 -o "$output/pond-rootfs.tar.zst"
 (cd "$output" && sha256sum pond-rootfs.tar.zst > pond-rootfs.tar.zst.sha256)
