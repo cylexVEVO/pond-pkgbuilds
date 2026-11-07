@@ -16,7 +16,7 @@ depends=(
   'networkmanager-qt'
   'pond-wallpaper'
   'qt6-base'
-  'qt6-declarative>=6.11'
+  'qt6-declarative>=6.12'
   'qt6-svg'
   'qt6-wayland'
   'quickshell>=0.3.1'

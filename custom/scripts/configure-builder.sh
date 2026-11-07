@@ -13,5 +13,5 @@ id builder &>/dev/null || useradd -m builder
 printf 'builder ALL=(root) NOPASSWD: /usr/bin/pacman\n' > /etc/sudoers.d/pond-builder
 chmod 440 /etc/sudoers.d/pond-builder
 # Bound parallelism to keep C++ compilation inside 16 GiB builders.
-printf '\nMAKEFLAGS="-j%s"\nCMAKE_BUILD_PARALLEL_LEVEL=2\nPACKAGER="cylexVEVO <pond@cylex.dog>"\n' "${BUILD_JOBS:-2}" >> /etc/makepkg.conf
+printf '\nMAKEFLAGS="-j%s"\nPACKAGER="cylexVEVO <pond@cylex.dog>"\n' "${BUILD_JOBS:-2}" >> /etc/makepkg.conf
 sed -i '/^OPTIONS=/s/\<debug\>/!debug/g' /etc/makepkg.conf

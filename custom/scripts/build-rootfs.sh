@@ -63,6 +63,12 @@ install -d "$root/usr/share/pond-custom"
 cp custom/{profile.json,sources.lock.json,signing-fingerprint} "$root/usr/share/pond-custom/"
 arch-chroot "$root" pacman -Q > "$root/usr/share/pond-custom/packages.txt"
 python3 custom/scripts/verify-rootfs.py "$root"
+# Exercise the installer's actual home-creation mechanism before sealing the image.
+arch-chroot "$root" useradd -m pond-defaults-check
+cmp "$root/etc/skel/.config/pond-interface/theme.json" "$root/home/pond-defaults-check/.config/pond-interface/theme.json"
+cmp "$root/etc/skel/.config/pond-interface/wallpaper.json" "$root/home/pond-defaults-check/.config/pond-interface/wallpaper.json"
+cmp "$root/etc/skel/.config/vicinae/settings.json" "$root/home/pond-defaults-check/.config/vicinae/settings.json"
+arch-chroot "$root" userdel -r pond-defaults-check
 cp "$root/usr/share/pond-custom/packages.txt" "$output/packages.txt"
 # Fresh installation identity; no builder user, credentials, or pacman private keyring.
 rm -f "$root/etc/machine-id" "$root/var/lib/dbus/machine-id" "$root/var/lib/systemd/random-seed"

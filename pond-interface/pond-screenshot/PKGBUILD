@@ -11,7 +11,7 @@ license=('BSD-3-Clause')
 depends=(
   'niri>=26.04'
   'python'
-  'qt6-declarative>=6.11'
+  'qt6-declarative>=6.12'
   'qt6-svg'
   'qt6-wayland'
   'quickshell>=0.3.1'
