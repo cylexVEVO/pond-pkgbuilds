@@ -10,6 +10,8 @@ if ! pacman-conf --repo-list | grep -qx pond; then
 fi
 pacman -Syu --noconfirm
 id builder &>/dev/null || useradd -m builder
+# Actions checks out as root; makepkg runs as builder and reads the repository.
+git config --system --add safe.directory "$PWD"
 printf 'builder ALL=(root) NOPASSWD: /usr/bin/pacman\n' > /etc/sudoers.d/pond-builder
 chmod 440 /etc/sudoers.d/pond-builder
 # Bound parallelism to keep C++ compilation inside 16 GiB builders.
