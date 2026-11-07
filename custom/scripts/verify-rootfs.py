@@ -6,6 +6,7 @@ from pathlib import Path
 root = Path(sys.argv[1])
 for relative in (
     'boot/vmlinuz-linux-pond', 'boot/vmlinuz-linux-pond-lts',
+    'boot/initramfs-linux-pond.img', 'boot/initramfs-linux-pond-lts.img',
     'usr/share/vicinae/extensions/pond-pm-extension',
     'usr/share/pond-interface/wallpaper/included/ales krivec.jpg',
     'etc/skel/.config/niri/config.kdl', 'usr/share/pacman/keyrings/pond-custom.gpg',
@@ -16,6 +17,8 @@ for relative in (
         target = path.readlink()
         path = root / str(target).lstrip('/') if target.is_absolute() else path.parent / target
     assert path.exists(), relative
+    if path.is_file():
+        assert path.stat().st_size > 0, relative
 config = root / 'etc/skel/.config'
 assert json.loads((config / 'pond-interface/theme.json').read_text())['theme'] == 'north'
 wallpaper = json.loads((config / 'pond-interface/wallpaper.json').read_text())
