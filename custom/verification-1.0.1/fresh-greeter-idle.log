@@ -1,0 +1,28 @@
+
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+pondtest:
+When                Type  Source                                           Valid
+Nov 07 23:53:44 pond-vm-test systemd[1]: Started Simple Desktop Display Manager.
+Nov 07 23:53:44 pond-vm-test sddm[564]: Initializing...
+Nov 07 23:53:44 pond-vm-test sddm[564]: Starting...
+Nov 07 23:53:44 pond-vm-test sddm[564]: Logind interface found
+Nov 07 23:53:44 pond-vm-test sddm[564]: Adding new display...
+Nov 07 23:53:44 pond-vm-test sddm[564]: Loaded empty theme configuration
+Nov 07 23:53:44 pond-vm-test sddm[564]: Using VT 1
+Nov 07 23:53:44 pond-vm-test sddm[564]: Display server started.
+Nov 07 23:53:44 pond-vm-test sddm[564]: Socket server starting...
+Nov 07 23:53:44 pond-vm-test sddm[564]: Socket server started.
+Nov 07 23:53:44 pond-vm-test sddm[564]: Loading theme configuration from "/usr/share/pond-interface/lockscreen/greeter/theme.conf"
+Nov 07 23:53:44 pond-vm-test sddm[564]: Greeter starting...
+Nov 07 23:53:44 pond-vm-test sddm-helper[571]: [PAM] Starting...
+Nov 07 23:53:44 pond-vm-test sddm-helper[571]: [PAM] Authenticating...
+Nov 07 23:53:44 pond-vm-test sddm-helper[571]: [PAM] returning.
+Nov 07 23:53:44 pond-vm-test sddm-helper[571]: pam_unix(sddm-greeter:session): session opened for user sddm(uid=945) by (uid=0)
+Nov 07 23:53:45 pond-vm-test sddm[564]: Greeter session started successfully
+Nov 07 23:53:47 pond-vm-test sddm[564]: Message received from greeter: Connect
